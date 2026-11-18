@@ -1,5 +1,22 @@
 # Super Jarvis PDF RAG
 
+## Download Super Jarvis
+
+[![Download ZIP](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge)](https://github.com/geetlavinayreddy/RAG-Project-00/archive/refs/heads/main.zip)
+
+- [Download the latest Super Jarvis ZIP](https://github.com/geetlavinayreddy/RAG-Project-00/archive/refs/heads/main.zip)
+- [View and download on GitHub](https://github.com/geetlavinayreddy/RAG-Project-00)
+- [Open the latest commit](https://github.com/geetlavinayreddy/RAG-Project-00/commits/main)
+
+Or download and enter it in one command:
+
+```powershell
+git clone https://github.com/geetlavinayreddy/RAG-Project-00.git
+cd RAG-Project-00
+python -m pip install -r requirements.txt
+copy .env.example .env
+```
+
 This project combines full local-file ingestion, semantic search, persistent
 ChromaDB embeddings, and OpenRouter-powered answers in one text assistant.
 
