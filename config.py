@@ -1,10 +1,10 @@
 import os
 
-from dotenv import load_dotenv
-from openai import OpenAI
-
-
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 
 def generate_answer(
@@ -19,6 +19,10 @@ def generate_answer(
             "OPENROUTER_API_KEY is missing. Add it to a .env file before asking questions."
         )
 
+    try:
+        from openai import OpenAI
+    except ImportError as error:
+        raise RuntimeError("The openai package is missing.") from error
     client = OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
     context_text = "\n\n".join(context)
     history_text = "\n".join(
