@@ -3,16 +3,16 @@ import json
 
 import streamlit as st
 
-from app import DOCUMENTS_DIR, SentenceTransformer, build_index, search, generate_answer, EMBEDDING_MODEL
+from app import DOCUMENTS_DIR, build_index, search, generate_answer
 from memory import load_memory, save_memory
 from open_sources import collect_open_sources
 from agent_ecosystem import create_plan, load_ecosystem
+from github_repositories import collect_github_repositories
 
 
 @st.cache_resource
 def resources():
-    model = SentenceTransformer(EMBEDDING_MODEL)
-    return model, build_index(model)
+    return None, build_index()
 
 
 st.set_page_config(page_title="Jarvis", page_icon="🧠", layout="wide")
@@ -41,6 +41,16 @@ with st.sidebar:
             total = collect_open_sources(DOCUMENTS_DIR, topic.strip())
         resources.clear()
         st.success(f"Collected {total} result(s).")
+    github_owner = st.text_input("GitHub owner", value="geetlavinayreddy")
+    if st.button("Collect owner repositories"):
+        with st.spinner("Cloning and refining public repository datasets..."):
+            manifest = collect_github_repositories(DOCUMENTS_DIR, github_owner.strip())
+        resources.clear()
+        st.success(
+            f"Imported {len(manifest['imported'])} file(s), "
+            f"deduplicated {len(manifest['duplicates'])}, "
+            f"{len(manifest['failed'])} failure(s)."
+        )
     if st.button("Clear conversation"):
         st.session_state.history = []
         save_memory([])

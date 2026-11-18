@@ -75,3 +75,17 @@ government-data catalog. Results are saved under `documents/.open_sources/`
 and then indexed with the rest of the local content. Collection is
 query-driven and limited to five results per source by default; it does not
 crawl the entire internet or bypass access controls.
+
+## GitHub repository collection
+
+Run `collect_repos` in the Jarvis prompt to import supported datasets and
+documents from all non-archived public repositories owned by
+`geetlavinayreddy`. To use another owner, run
+`collect_repos owner-name`.
+
+The collector imports PDF, TXT, Markdown, CSV, JSON, and DOCX files, excluding
+environment files, lockfiles, build directories, caches, dependencies, and
+oversized files. Imported files are grouped under
+`documents/.github_repositories/`, and repository manifest records commit,
+source path, URL, byte count, and SHA-256 hash. Duplicate content is recorded
+in the manifest but copied only once.

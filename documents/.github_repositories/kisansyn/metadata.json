@@ -1,0 +1,6 @@
+{
+  "name": "KisanSync",
+  "description": "Comprehensive Agrarian Procurement Command Center, Vernacular Voice AI Pipeline, High-Concurrency Locking Simulator, and District Logistics Engine for KisanSync.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

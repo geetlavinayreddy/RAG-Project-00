@@ -1,0 +1,6 @@
+{
+  "name": "Ideate",
+  "description": "Founder's Social Network Platform",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

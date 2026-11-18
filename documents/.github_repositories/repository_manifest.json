@@ -1,0 +1,119 @@
+{
+  "owner": "geetlavinayreddy",
+  "repositories": [
+    {
+      "name": "RAG-Project-00",
+      "clone_url": "https://github.com/geetlavinayreddy/RAG-Project-00.git",
+      "private": false
+    },
+    {
+      "name": "Stock_Sense",
+      "clone_url": "https://github.com/geetlavinayreddy/Stock_Sense.git",
+      "private": true
+    },
+    {
+      "name": "kisan_sethu",
+      "clone_url": "https://github.com/geetlavinayreddy/kisan_sethu.git",
+      "private": false
+    },
+    {
+      "name": "retainiq-churn-prediction",
+      "clone_url": "https://github.com/geetlavinayreddy/retainiq-churn-prediction.git",
+      "private": false
+    },
+    {
+      "name": "kisansyn",
+      "clone_url": "https://github.com/geetlavinayreddy/kisansyn.git",
+      "private": false
+    },
+    {
+      "name": "campusSync",
+      "clone_url": "https://github.com/geetlavinayreddy/campusSync.git",
+      "private": false
+    }
+  ],
+  "imported": [
+    {
+      "repository": "geetlavinayreddy/RAG-Project-00",
+      "commit": "db58a04d755b7f5ad9ea68fe16b2d63744be2cbd",
+      "path": "README.md",
+      "url": "https://github.com/geetlavinayreddy/RAG-Project-00/blob/db58a04d755b7f5ad9ea68fe16b2d63744be2cbd/README.md",
+      "sha256": "83bd8186dc97cf88b7e2ff3ac733f5a9a121aec55f4c73b742fe1c4c8860114b",
+      "bytes": 2741
+    },
+    {
+      "repository": "geetlavinayreddy/RAG-Project-00",
+      "commit": "db58a04d755b7f5ad9ea68fe16b2d63744be2cbd",
+      "path": "documents/ai_notes.pdf",
+      "url": "https://github.com/geetlavinayreddy/RAG-Project-00/blob/db58a04d755b7f5ad9ea68fe16b2d63744be2cbd/documents/ai_notes.pdf",
+      "sha256": "eafbd96f5ad745df00016f6ba67a3fda178a0c6e4d73572d6924e547dc2258ff",
+      "bytes": 400001
+    },
+    {
+      "repository": "geetlavinayreddy/RAG-Project-00",
+      "commit": "db58a04d755b7f5ad9ea68fe16b2d63744be2cbd",
+      "path": "ecosystem.json",
+      "url": "https://github.com/geetlavinayreddy/RAG-Project-00/blob/db58a04d755b7f5ad9ea68fe16b2d63744be2cbd/ecosystem.json",
+      "sha256": "e759b0a3259849320207cdc56dcfb801e7c7fc55510b867d90951a9121cf295a",
+      "bytes": 2160
+    },
+    {
+      "repository": "geetlavinayreddy/Stock_Sense",
+      "commit": "14cd1e78ac577a08a5b15bb307c376ba89ebcb9d",
+      "path": "README.md",
+      "url": "https://github.com/geetlavinayreddy/Stock_Sense/blob/14cd1e78ac577a08a5b15bb307c376ba89ebcb9d/README.md",
+      "sha256": "39d67c553bede87bef44b8a60fd0b0d4cbecbf9bd21770adddf0f042de529dba",
+      "bytes": 3280
+    },
+    {
+      "repository": "geetlavinayreddy/kisan_sethu",
+      "commit": "da07257acddd35967490bb683e88b562d1cb2291",
+      "path": "README.md",
+      "url": "https://github.com/geetlavinayreddy/kisan_sethu/blob/da07257acddd35967490bb683e88b562d1cb2291/README.md",
+      "sha256": "69e90fce8679e75f1e834896a230b57d381346ee50d55cefd1c50c26ca825a3a",
+      "bytes": 107
+    },
+    {
+      "repository": "geetlavinayreddy/retainiq-churn-prediction",
+      "commit": "9a08d55dbd7117886559a0e888dc16ad315973e2",
+      "path": "README.md",
+      "url": "https://github.com/geetlavinayreddy/retainiq-churn-prediction/blob/9a08d55dbd7117886559a0e888dc16ad315973e2/README.md",
+      "sha256": "700399900b0e1144a8eaea6062793965583567b314ed7b1dd795a5e57c71c1ee",
+      "bytes": 5712
+    },
+    {
+      "repository": "geetlavinayreddy/retainiq-churn-prediction",
+      "commit": "9a08d55dbd7117886559a0e888dc16ad315973e2",
+      "path": "data/WA_Fn-UseC_-Telco-Customer-Churn.csv",
+      "url": "https://github.com/geetlavinayreddy/retainiq-churn-prediction/blob/9a08d55dbd7117886559a0e888dc16ad315973e2/data/WA_Fn-UseC_-Telco-Customer-Churn.csv",
+      "sha256": "16320c9c1ec72448db59aa0a26a0b95401046bef5d02fd3aeb906448e3055e91",
+      "bytes": 970457
+    },
+    {
+      "repository": "geetlavinayreddy/retainiq-churn-prediction",
+      "commit": "9a08d55dbd7117886559a0e888dc16ad315973e2",
+      "path": "data/telco_sample.csv",
+      "url": "https://github.com/geetlavinayreddy/retainiq-churn-prediction/blob/9a08d55dbd7117886559a0e888dc16ad315973e2/data/telco_sample.csv",
+      "sha256": "410d766879f16972272095330df4f97ecbba254a44a0fc95fc6e00037c6181f9",
+      "bytes": 19083
+    },
+    {
+      "repository": "geetlavinayreddy/kisansyn",
+      "commit": "d29582825b3b1bea9b5c9ff1144a6281536e8d12",
+      "path": "metadata.json",
+      "url": "https://github.com/geetlavinayreddy/kisansyn/blob/d29582825b3b1bea9b5c9ff1144a6281536e8d12/metadata.json",
+      "sha256": "7ac196491b7e8d005ef927ee5332e4dcde0caa010635474dfcb7672a09316235",
+      "bytes": 309
+    },
+    {
+      "repository": "geetlavinayreddy/campusSync",
+      "commit": "8720abf1f529bc591f3150d6e19bce61ebd4a610",
+      "path": "metadata.json",
+      "url": "https://github.com/geetlavinayreddy/campusSync/blob/8720abf1f529bc591f3150d6e19bce61ebd4a610/metadata.json",
+      "sha256": "80a32c2577728f209b083437cb0c587759ed73f77f895541a4e7d196ec90e517",
+      "bytes": 179
+    }
+  ],
+  "duplicates": [],
+  "failed": []
+}

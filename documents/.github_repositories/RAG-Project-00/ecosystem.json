@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "name": "LangGraph",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "category": "durable workflow",
+      "license_note": "Review license and pinned release before integration"
+    },
+    {
+      "name": "CrewAI",
+      "url": "https://github.com/crewAIInc/crewAI",
+      "category": "role-based multi-agent",
+      "license_note": "Review license and pinned release before integration"
+    },
+    {
+      "name": "Microsoft Agent Framework",
+      "url": "https://github.com/microsoft/agent-framework",
+      "category": "multi-agent orchestration",
+      "license_note": "Review license and pinned release before integration"
+    },
+    {
+      "name": "OpenHands",
+      "url": "https://github.com/OpenHands/OpenHands",
+      "category": "coding agent",
+      "license_note": "Review license and pinned release before integration"
+    },
+    {
+      "name": "Browser Use",
+      "url": "https://github.com/browser-use/browser-use",
+      "category": "browser automation",
+      "license_note": "Review license and pinned release before integration"
+    },
+    {
+      "name": "Model Context Protocol Servers",
+      "url": "https://github.com/modelcontextprotocol/servers",
+      "category": "tool ecosystem",
+      "license_note": "Review license and pinned release before integration"
+    },
+    {
+      "name": "Pydantic AI",
+      "url": "https://github.com/pydantic/pydantic-ai",
+      "category": "typed agents",
+      "license_note": "Review license and pinned release before integration"
+    },
+    {
+      "name": "Haystack",
+      "url": "https://github.com/deepset-ai/haystack",
+      "category": "agentic RAG",
+      "license_note": "Review license and pinned release before integration"
+    },
+    {
+      "name": "LlamaIndex",
+      "url": "https://github.com/run-llama/llama_index",
+      "category": "retrieval",
+      "license_note": "Review license and pinned release before integration"
+    },
+    {
+      "name": "Mem0",
+      "url": "https://github.com/mem0ai/mem0",
+      "category": "agent memory",
+      "license_note": "Review license and pinned release before integration"
+    }
+  ]
+}

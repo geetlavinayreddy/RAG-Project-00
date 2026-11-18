@@ -3,16 +3,12 @@ import hashlib
 import json
 from pathlib import Path
 
-import chromadb
-from chromadb.errors import NotFoundError
-from docx import Document
-from pypdf import PdfReader
-from sentence_transformers import SentenceTransformer
-
 from config import generate_answer
 from memory import load_memory, save_memory
 from open_sources import collect_open_sources
 from agent_ecosystem import create_plan, load_ecosystem
+from github_repositories import collect_github_repositories
+from vector_index import DiskVectorCollection, vectorize
 
 
 ROOT = Path(__file__).resolve().parent
@@ -26,7 +22,12 @@ SUPPORTED_EXTENSIONS = {".pdf", ".txt", ".md", ".csv", ".json", ".docx"}
 
 def read_file(path: Path) -> str:
     if path.suffix.lower() == ".pdf":
-        return "\n".join(page.extract_text() or "" for page in PdfReader(str(path)).pages)
+        try:
+            from pypdf import PdfReader
+            return "\n".join(page.extract_text() or "" for page in PdfReader(str(path)).pages)
+        except Exception as error:
+            print(f"PDF extraction failed for {path.name}: {error}")
+            return ""
     if path.suffix.lower() in {".txt", ".md"}:
         return path.read_text(encoding="utf-8", errors="replace")
     if path.suffix.lower() == ".csv":
@@ -35,10 +36,14 @@ def read_file(path: Path) -> str:
     if path.suffix.lower() == ".json":
         return json.dumps(json.loads(path.read_text(encoding="utf-8")), indent=2, ensure_ascii=False)
     if path.suffix.lower() == ".docx":
-        document = Document(str(path))
-        parts = [paragraph.text for paragraph in document.paragraphs]
-        parts.extend(" | ".join(cell.text for cell in row.cells) for table in document.tables for row in table.rows)
-        return "\n".join(parts)
+        try:
+            from docx import Document
+            document = Document(str(path))
+            parts = [paragraph.text for paragraph in document.paragraphs]
+            parts.extend(" | ".join(cell.text for cell in row.cells) for table in document.tables for row in table.rows)
+            return "\n".join(parts)
+        except ImportError:
+            return ""
     raise ValueError(f"Unsupported file type: {path.suffix}")
 
 
@@ -49,7 +54,7 @@ def create_chunks(text: str, chunk_size: int = 900, overlap: int = 180) -> list[
     return [chunk.strip() for start in range(0, len(text), step) if (chunk := text[start : start + chunk_size].strip())]
 
 
-def build_index(model: SentenceTransformer) -> chromadb.Collection:
+def build_index(model=None) -> DiskVectorCollection:
     files = sorted(path for path in DOCUMENTS_DIR.rglob("*") if path.is_file())
     supported_files = [path for path in files if path.suffix.lower() in SUPPORTED_EXTENSIONS]
     ignored_files = [path for path in files if path.suffix.lower() not in SUPPORTED_EXTENSIONS]
@@ -87,43 +92,25 @@ def build_index(model: SentenceTransformer) -> chromadb.Collection:
         except json.JSONDecodeError:
             previous_manifest = []
     if previous_manifest == manifest:
-        client = chromadb.PersistentClient(path=str(DATABASE_DIR))
-        try:
-            collection = client.get_collection(COLLECTION_NAME)
+        index_path = DATABASE_DIR / "vector_index.json"
+        if index_path.exists():
+            collection = DiskVectorCollection.load(index_path)
             print(f"No content changed. Reusing {collection.count()} indexed chunks.")
             return collection
-        except NotFoundError:
-            pass
 
-    print(f"\nCreating embeddings for {len(documents)} chunks...")
-    embeddings = model.encode(documents, batch_size=32, show_progress_bar=True).tolist()
+    print(f"\nCreating lightweight vectors for {len(documents)} chunks...")
+    vectors = [vectorize(document) for document in documents]
     DATABASE_DIR.mkdir(parents=True, exist_ok=True)
-    client = chromadb.PersistentClient(path=str(DATABASE_DIR))
-    try:
-        client.delete_collection(COLLECTION_NAME)
-    except NotFoundError:
-        pass
-    collection = client.create_collection(COLLECTION_NAME)
-    collection.add(
-        ids=[f"chunk_{index}" for index in range(len(documents))],
-        documents=documents,
-        embeddings=embeddings,
-        metadatas=metadatas,
-    )
+    collection = DiskVectorCollection(DATABASE_DIR / "vector_index.json", documents, metadatas, vectors)
+    collection.save()
     MANIFEST_PATH.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     print(f"Stored {collection.count()} chunks from {len(manifest)} file(s).")
     print(f"Full-content manifest: {MANIFEST_PATH}")
     return collection
 
 
-def search(collection: chromadb.Collection, model: SentenceTransformer, question: str) -> tuple[list[str], list[dict]]:
-    query_embedding = model.encode(question).tolist()
-    result = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=min(8, collection.count()),
-        include=["documents", "metadatas", "distances"],
-    )
-    return result["documents"][0], result["metadatas"][0]
+def search(collection: DiskVectorCollection, model, question: str) -> tuple[list[str], list[dict]]:
+    return collection.query(question, min(8, collection.count()))
 
 
 def main() -> None:
@@ -131,13 +118,13 @@ def main() -> None:
     print("                            JARVIS - FULL DATA RAG")
     print("=" * 68)
     print(f"Scanning every supported file under: {DOCUMENTS_DIR}")
-    print("Loading embedding model...")
-    model = SentenceTransformer(EMBEDDING_MODEL)
+    print("Using the built-in lightweight hashed-vector index...")
+    model = None
     collection = build_index(model)
     history = load_memory()
     print("\nReady. Ask questions about all indexed content.")
     print("Commands: 'help', 'collect <topic>', 'reindex', and 'exit'.")
-    print("Agent ecosystem is available with 'ecosystem', 'plan <goal>', and 'status'.")
+    print("Commands: 'collect_repos [owner]' and 'ecosystem', 'plan <goal>', 'status'.")
 
     while True:
         question = input("\nJarvis> ").strip()
@@ -175,6 +162,17 @@ def main() -> None:
             print(f"\nCollecting open-source results for: {query}")
             collected = collect_open_sources(DOCUMENTS_DIR, query)
             print(f"Collected {collected} result(s). Reindexing all local content...")
+            collection = build_index(model)
+            continue
+        if question.lower().startswith("collect_repos"):
+            owner = question[len("collect_repos"):].strip() or "geetlavinayreddy"
+            print(f"\nCollecting supported data and documents from public repositories owned by {owner}...")
+            manifest = collect_github_repositories(DOCUMENTS_DIR, owner)
+            print(
+                f"Imported {len(manifest['imported'])} file(s); "
+                f"deduplicated {len(manifest['duplicates'])}; "
+                f"failed {len(manifest['failed'])}."
+            )
             collection = build_index(model)
             continue
         if question.lower() == "reindex":
