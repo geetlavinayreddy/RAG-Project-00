@@ -40,6 +40,16 @@ streamlit run web_app.py
 The web interface supports uploads, open-source collection, chat history, and
 conversation reset.
 
+## Agent ecosystem
+
+`ecosystem.json` catalogs curated open-source agent frameworks for planning,
+multi-agent workflows, tools, retrieval, memory, coding, and browser automation.
+These repositories are references only. Super Jarvis does not clone or execute
+third-party repositories without a separate review and approval step.
+
+Reindexing compares SHA-256 content hashes and reuses the existing vector
+collection when no supported file has changed.
+
 ## Open sources
 
 From the Jarvis prompt, run `collect <topic>` to fetch a bounded set of

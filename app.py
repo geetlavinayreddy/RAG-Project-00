@@ -12,6 +12,7 @@ from sentence_transformers import SentenceTransformer
 from config import generate_answer
 from memory import load_memory, save_memory
 from open_sources import collect_open_sources
+from agent_ecosystem import create_plan, load_ecosystem
 
 
 ROOT = Path(__file__).resolve().parent
@@ -79,6 +80,21 @@ def build_index(model: SentenceTransformer) -> chromadb.Collection:
     if not documents:
         raise ValueError("No readable content was found in the supported files.")
 
+    previous_manifest = []
+    if MANIFEST_PATH.exists():
+        try:
+            previous_manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            previous_manifest = []
+    if previous_manifest == manifest:
+        client = chromadb.PersistentClient(path=str(DATABASE_DIR))
+        try:
+            collection = client.get_collection(COLLECTION_NAME)
+            print(f"No content changed. Reusing {collection.count()} indexed chunks.")
+            return collection
+        except NotFoundError:
+            pass
+
     print(f"\nCreating embeddings for {len(documents)} chunks...")
     embeddings = model.encode(documents, batch_size=32, show_progress_bar=True).tolist()
     DATABASE_DIR.mkdir(parents=True, exist_ok=True)
@@ -121,6 +137,7 @@ def main() -> None:
     history = load_memory()
     print("\nReady. Ask questions about all indexed content.")
     print("Commands: 'help', 'collect <topic>', 'reindex', and 'exit'.")
+    print("Agent ecosystem is available with 'ecosystem', 'plan <goal>', and 'status'.")
 
     while True:
         question = input("\nJarvis> ").strip()
@@ -130,7 +147,25 @@ def main() -> None:
             print("Goodbye.")
             return
         if question.lower() == "help":
-            print("Ask about indexed files, use 'collect <topic>' for open-source metadata, or 'reindex'.")
+            print("Ask questions, collect open sources, reindex, plan a goal, or view ecosystem/status.")
+            continue
+        if question.lower() == "ecosystem":
+            for source in load_ecosystem():
+                print(f"- {source['name']} [{source['category']}]: {source['url']}")
+            continue
+        if question.lower() == "status":
+            print(f"Documents: {DOCUMENTS_DIR}")
+            print(f"Vector database: {DATABASE_DIR}")
+            print(f"Indexed chunks: {collection.count()}")
+            print(f"Curated ecosystem sources: {len(load_ecosystem())}")
+            continue
+        if question.lower().startswith("plan "):
+            goal = question[5:].strip()
+            if not goal:
+                print("Usage: plan <goal>")
+                continue
+            for step in create_plan(goal):
+                print(f"- {step['step']} [{step['owner']}]: {step['action']}")
             continue
         if question.lower().startswith("collect "):
             query = question[8:].strip()

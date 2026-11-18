@@ -7,3 +7,4 @@ data/chroma_db/
 data/index_manifest.json
 documents/.open_sources/
 data/conversation_memory.json
+data/agent_plans.json
