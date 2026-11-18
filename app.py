@@ -128,7 +128,7 @@ def search(collection: chromadb.Collection, model: SentenceTransformer, question
 
 def main() -> None:
     print("=" * 68)
-    print("                    SUPER JARVIS - FULL DATA RAG")
+    print("                            JARVIS - FULL DATA RAG")
     print("=" * 68)
     print(f"Scanning every supported file under: {DOCUMENTS_DIR}")
     print("Loading embedding model...")

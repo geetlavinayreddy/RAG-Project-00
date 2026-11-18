@@ -15,8 +15,8 @@ def resources():
     return model, build_index(model)
 
 
-st.set_page_config(page_title="Super Jarvis", page_icon="🧠", layout="wide")
-st.title("🧠 Super Jarvis")
+st.set_page_config(page_title="Jarvis", page_icon="🧠", layout="wide")
+st.title("🧠 Jarvis")
 st.caption("Full-content local RAG with open-source metadata collection")
 
 if "history" not in st.session_state:
@@ -60,7 +60,7 @@ with tab_chat:
         with st.chat_message(item["role"]):
             st.markdown(item["content"])
 
-    question = st.chat_input("Ask Super Jarvis about your knowledge base")
+    question = st.chat_input("Ask Jarvis about your knowledge base")
     if question:
         with st.chat_message("user"):
             st.markdown(question)

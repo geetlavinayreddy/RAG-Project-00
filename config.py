@@ -25,7 +25,7 @@ def generate_answer(
         f"{item['role'].title()}: {item['content']}" for item in (history or [])[-10:]
     )
     prompt = (
-        "You are Super Jarvis, a helpful PDF assistant. "
+        "You are Jarvis, a helpful personal AI assistant. "
         "Answer only from the supplied context. If the context does not contain "
         "the answer, say that you could not find it in the documents. "
         "Include a short 'Sources' line using only the supplied source list.\n\n"

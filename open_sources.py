@@ -10,13 +10,13 @@ OPEN_SOURCE_DIRNAME = ".open_sources"
 
 
 def _get_json(url: str) -> dict:
-    request = Request(url, headers={"User-Agent": "SuperJarvis/1.0"})
+    request = Request(url, headers={"User-Agent": "Jarvis/1.0"})
     with urlopen(request, timeout=20) as response:
         return json.load(response)
 
 
 def _get_text(url: str) -> str:
-    request = Request(url, headers={"User-Agent": "SuperJarvis/1.0"})
+    request = Request(url, headers={"User-Agent": "Jarvis/1.0"})
     with urlopen(request, timeout=20) as response:
         return response.read().decode("utf-8")
 

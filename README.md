@@ -1,10 +1,10 @@
-# Super Jarvis PDF RAG
+# Jarvis PDF RAG
 
-## Download Super Jarvis
+## Download Jarvis
 
 [![Download ZIP](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge)](https://github.com/geetlavinayreddy/RAG-Project-00/archive/refs/heads/main.zip)
 
-- [Download the latest Super Jarvis ZIP](https://github.com/geetlavinayreddy/RAG-Project-00/archive/refs/heads/main.zip)
+- [Download the latest Jarvis ZIP](https://github.com/geetlavinayreddy/RAG-Project-00/archive/refs/heads/main.zip)
 - [View and download on GitHub](https://github.com/geetlavinayreddy/RAG-Project-00)
 - [Open the latest commit](https://github.com/geetlavinayreddy/RAG-Project-00/commits/main)
 
@@ -61,7 +61,7 @@ conversation reset.
 
 `ecosystem.json` catalogs curated open-source agent frameworks for planning,
 multi-agent workflows, tools, retrieval, memory, coding, and browser automation.
-These repositories are references only. Super Jarvis does not clone or execute
+These repositories are references only. Jarvis does not clone or execute
 third-party repositories without a separate review and approval step.
 
 Reindexing compares SHA-256 content hashes and reuses the existing vector
