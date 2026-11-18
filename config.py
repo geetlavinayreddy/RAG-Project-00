@@ -7,7 +7,7 @@ from openai import OpenAI
 load_dotenv()
 
 
-def generate_answer(question: str, context: list[str]) -> str:
+def generate_answer(question: str, context: list[str], sources: str) -> str:
     api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
         raise RuntimeError(
@@ -19,8 +19,10 @@ def generate_answer(question: str, context: list[str]) -> str:
     prompt = (
         "You are Super Jarvis, a helpful PDF assistant. "
         "Answer only from the supplied context. If the context does not contain "
-        "the answer, say that you could not find it in the documents.\n\n"
+        "the answer, say that you could not find it in the documents. "
+        "Include a short 'Sources' line using only the supplied source list.\n\n"
         f"Context:\n{context_text}\n\n"
+        f"Source list:\n{sources}\n\n"
         f"Question:\n{question}"
     )
     response = client.chat.completions.create(

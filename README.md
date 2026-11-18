@@ -1,7 +1,12 @@
 # Super Jarvis PDF RAG
 
-This project combines PDF ingestion, semantic search, persistent ChromaDB
-embeddings, and OpenRouter-powered answers in one text assistant.
+This project combines full local-file ingestion, semantic search, persistent
+ChromaDB embeddings, and OpenRouter-powered answers in one text assistant.
+
+Supported files are PDF, TXT, Markdown, CSV, JSON, and DOCX. Files are scanned
+recursively under `documents/`; the original files remain untouched, while all
+extracted content is chunked into ChromaDB and recorded in
+`data/index_manifest.json`.
 
 ## Run
 
@@ -21,5 +26,15 @@ embeddings, and OpenRouter-powered answers in one text assistant.
    python app.py
    ```
 
-The app indexes every PDF in `documents/`, stores embeddings in
-`data/chroma_db/`, and supports `help`, `reindex`, and `exit` commands.
+The app indexes every supported file in `documents/`, stores embeddings in
+`data/chroma_db/`, records hashes and character counts in the manifest, and
+supports `help`, `reindex`, and `exit` commands.
+
+## Open sources
+
+From the Jarvis prompt, run `collect <topic>` to fetch a bounded set of
+metadata results from Wikipedia, arXiv, Project Gutenberg, and the Socrata
+government-data catalog. Results are saved under `documents/.open_sources/`
+and then indexed with the rest of the local content. Collection is
+query-driven and limited to five results per source by default; it does not
+crawl the entire internet or bypass access controls.
