@@ -1,12 +1,6 @@
-langchain
-langchain-community
-langchain-openai
-langchain-chroma
-langchain-text-splitters
-
 chromadb
+openai
 pypdf
-sentence-transformers
-
 python-dotenv
-tiktoken
+sentence-transformers
+torch
