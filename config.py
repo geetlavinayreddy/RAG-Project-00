@@ -7,7 +7,12 @@ from openai import OpenAI
 load_dotenv()
 
 
-def generate_answer(question: str, context: list[str], sources: str) -> str:
+def generate_answer(
+    question: str,
+    context: list[str],
+    sources: str,
+    history: list[dict[str, str]] | None = None,
+) -> str:
     api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
         raise RuntimeError(
@@ -16,6 +21,9 @@ def generate_answer(question: str, context: list[str], sources: str) -> str:
 
     client = OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
     context_text = "\n\n".join(context)
+    history_text = "\n".join(
+        f"{item['role'].title()}: {item['content']}" for item in (history or [])[-10:]
+    )
     prompt = (
         "You are Super Jarvis, a helpful PDF assistant. "
         "Answer only from the supplied context. If the context does not contain "
@@ -23,6 +31,7 @@ def generate_answer(question: str, context: list[str], sources: str) -> str:
         "Include a short 'Sources' line using only the supplied source list.\n\n"
         f"Context:\n{context_text}\n\n"
         f"Source list:\n{sources}\n\n"
+        f"Recent conversation:\n{history_text or '(none)'}\n\n"
         f"Question:\n{question}"
     )
     response = client.chat.completions.create(

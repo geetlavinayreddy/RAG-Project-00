@@ -10,6 +10,7 @@ from pypdf import PdfReader
 from sentence_transformers import SentenceTransformer
 
 from config import generate_answer
+from memory import load_memory, save_memory
 from open_sources import collect_open_sources
 
 
@@ -117,6 +118,7 @@ def main() -> None:
     print("Loading embedding model...")
     model = SentenceTransformer(EMBEDDING_MODEL)
     collection = build_index(model)
+    history = load_memory()
     print("\nReady. Ask questions about all indexed content.")
     print("Commands: 'help', 'collect <topic>', 'reindex', and 'exit'.")
 
@@ -146,7 +148,10 @@ def main() -> None:
         context, metadata = search(collection, model, question)
         sources = "\n".join(f"- {item['source']} (chunk {item['chunk']})" for item in metadata)
         print("\nJarvis is thinking...")
-        print("\n" + generate_answer(question, context, sources))
+        answer = generate_answer(question, context, sources, history)
+        history.extend([{"role": "user", "content": question}, {"role": "assistant", "content": answer}])
+        save_memory(history)
+        print("\n" + answer)
 
 
 if __name__ == "__main__":

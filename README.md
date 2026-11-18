@@ -30,6 +30,16 @@ The app indexes every supported file in `documents/`, stores embeddings in
 `data/chroma_db/`, records hashes and character counts in the manifest, and
 supports `help`, `reindex`, and `exit` commands.
 
+Conversation history is retained locally in `data/conversation_memory.json`
+(the file is ignored by Git). A browser interface is available with:
+
+```powershell
+streamlit run web_app.py
+```
+
+The web interface supports uploads, open-source collection, chat history, and
+conversation reset.
+
 ## Open sources
 
 From the Jarvis prompt, run `collect <topic>` to fetch a bounded set of
